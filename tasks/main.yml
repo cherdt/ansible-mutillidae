@@ -23,7 +23,53 @@
 
 - name: install mysql-server
   apt:
-    name: ["mysql-server", "php-mysql"]
+    name: ["libmysqlclient-dev", "mysql-client", "mysql-server", "php-mysql", "python-pymysql"]
     state: present
+
+- name: install PIP
+  apt:
+    name: python-pip
+    state: present
+
+- name: install MySQL-python PIP module
+  pip:
+    name: MySQL-python
+    state: present
+
+# MySQL apparently runs once when installed, and then shuts down.
+# This causes the following service check to pass [OK] because it is up,
+# but then subsequent tasks that rely on MySQL fail.
+# Pause for 60 seconds to wait for MySQL to stop
+#- name: wait for MySQL install to complete before checking service
+#  pause:
+#    seconds: 60
+
+# Note that the Ubuntu 18.04 Docker container does not include systemd
+- name: start MySQL
+  service:
+    name: mysql
+    enabled: yes
+    state: started
+
+# Ansible bug? https://github.com/geerlingguy/ansible-role-mysql/issues/265
+- name: force MySQL to start
+  command: service mysql start
+
+- name: change MySQL root user password
+  mysql_user:
+    name: root
+    password: mutillidae
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+# Now that we've changed the password, we'll need access to the password
+- name: copy MySQL options file
+  copy:
+    src: my.cnf
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
 
 ...

@@ -16,3 +16,12 @@ verifier:
   name: testinfra
   lint:
     name: flake8
+scenario:
+  name: default
+  test_sequence:
+  - destroy
+  - create
+  - converge
+  # - idempotence
+  - lint
+  - verify
