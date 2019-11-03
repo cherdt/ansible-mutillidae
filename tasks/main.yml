@@ -2,9 +2,14 @@
 # tasks file for ansible-mutillidae
 
 # NOT IDEMPOTENT
-#- name: update APT cache
-#  apt:
-#    update_cache: yes
+- name: update APT cache
+  apt:
+    update_cache: yes
+
+- name: install git
+  apt:
+    name: git
+    state: present
 
 - name: install Apache2
   apt:
@@ -71,5 +76,16 @@
     group: root
     mode: 0600
 
+- name: install PHP libraries
+  apt:
+    name: ["php7.2-curl", "php7.2-mbstring", "php7.2-xml"]
+    state: present
+
+- name: clone Mutillidae project
+  git:
+    repo: https://git.code.sf.net/p/mutillidae/git
+    dest: /var/www/html/mutillidae
+    clone: yes
+    update: no
 
 ...
