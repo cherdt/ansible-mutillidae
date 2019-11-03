@@ -88,4 +88,10 @@
     clone: yes
     update: no
 
+- name: copy site root index.html
+  copy:
+    src: index.html
+    dest: /var/www/html/index.html
+    mode: 0755
+
 ...
