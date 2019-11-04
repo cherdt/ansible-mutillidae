@@ -20,6 +20,7 @@
   apt:
     name: php
     state: present
+  notify: restart apache
 
 - name: install libapache2-mod-php
   apt:
