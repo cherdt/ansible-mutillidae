@@ -40,4 +40,4 @@ MIT
 Author Information
 ------------------
 
-Blame Chris Herdt. [Accidental Developer](https://osric.com/chris/accidental-developer/).
+Blame Chris Herdt. Visit his site: [Accidental Developer](https://osric.com/chris/accidental-developer/).
